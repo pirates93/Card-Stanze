@@ -1,0 +1,945 @@
+type: vertical-stack
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Salone
+                secondary: null
+                icon: null
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                multiline_secondary: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      --card-primary-font-weight: normal;
+                      --card-secondary-font-weight: normal;
+                      --card-primary-font-size: 23px;
+                      --card-secondary-font-size: 15px;
+                      background-color: rgba(0,0,0,0);
+                      --ha-card-border-width: 0;
+                    }
+                        :host {
+                          margin-top: 8px !important;
+                          margin-bottom: 0px !important;
+                        }
+              - type: custom:mushroom-template-card
+                primary: Temperatura
+                secondary: >-
+                  {{ states('sensor.sala_da_pranzo_temperatura') | float(1) }}
+                  °C |  {{ states('sensor.sala_da_pranzo_umidita') | int(0) }} %
+                icon: mdi:sofa
+                entity: group.all_salone
+                tap_action:
+                  action: navigate
+                  navigation_path: sala-da-pranzo
+                hold_action:
+                  action: toggle
+                icon_color: >-
+                  {% set state=states('group.all_salone') %}   {% if
+                  state=='on'%} white  {% else %} blue  {% endif %}
+                fill_container: true
+                layout: horizontal
+                multiline_secondary: true
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.2);
+                    } 
+                    :host {
+                      background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --mush-icon-size: 70px;
+                      height: 70x;
+                      margin-left: -22px !important;
+                    }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                fill_container: true
+                chips:
+                  - type: template
+                    entity: climate.ingresso
+                    icon_color: >-
+                      {% set state=states('climate.ingresso') %}   {% if
+                      state=='on'%} grey  {% else %} blue  {% endif %}
+                    icon: mdi:snowflake
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: media_player.tv_del_salotto_2
+                    icon_color: >-
+                      {% set state=states('media_player.tv_del_salotto_2') %}  
+                      {% if state=='on'%} blue  {% else %} grey  {% endif %}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:television-classic
+                      {% elif state=='off' %}
+                      mdi:television-classic-off
+                      {% else %}
+                      mdi:television-classic-off
+                      {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_telecamere_salone
+                    content: >-
+                      {{ expand(state_attr("group.all_telecamere_salone",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:cctv
+                      {% elif state=='off' %}
+                      mdi:cctv-off
+                      {% else %}
+                      mdi:cctv-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_telecamere_salone",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} red  {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_salone
+                    content: >-
+                      {{ expand(state_attr("group.all_salone", "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:lightbulb-group
+                      {% elif state=='off' %}
+                      mdi:lightbulb-group-off
+                      {% else %}
+                      mdi:lightbulb-group-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set count=expand(state_attr("group.all_salone",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} amber  {% endif %}
+                    tap_action:
+                      action: more-info
+                alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+              {% if is_state('group.all_salone', 'on') %}
+                 background: rgba(253, 255, 0, 0.3);
+              {% endif %}
+            }
+            :host {
+                    margin-top: -15px !important;
+                  }
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Cameretta
+                secondary: null
+                icon: null
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                multiline_secondary: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      --card-primary-font-weight: normal;
+                      --card-secondary-font-weight: normal;
+                      --card-primary-font-size: 23px;
+                      --card-secondary-font-size: 15px;
+                      background-color: rgba(0,0,0,0);
+                      --ha-card-border-width: 0;
+                    }
+                        :host {
+                          margin-top: 8px !important;
+                          margin-bottom: 0px !important;
+                        }
+              - type: custom:mushroom-template-card
+                primary: Temperatura
+                secondary: >-
+                  {{ states('sensor.cameretta_temperatura') | float(1) }} °C | 
+                  {{ states('sensor.cameretta_umidita') | int(0) }} %
+                icon: mdi:bed
+                entity: group.all_cameretta
+                tap_action:
+                  action: navigate
+                  navigation_path: cameretta
+                hold_action:
+                  action: toggle
+                icon_color: >-
+                  {% set state=states('group.all_cameretta') %}   {% if
+                  state=='on'%} #0099b3  {% else %} #ffa500  {% endif %}
+                fill_container: true
+                layout: horizontal
+                multiline_secondary: true
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.2);
+                    } 
+                    :host {
+                      background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --mush-icon-size: 70px;
+                      height: 70px;
+                      margin-left: -22px !important;
+                    }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                fill_container: true
+                chips:
+                  - type: template
+                    entity: climate.tv01_zg_5
+                    icon_color: >-
+                      {% set state=states('climate.tv01_zg_5') %}   {% if
+                      state=='on'%} grey  {% else %} blue  {% endif %}
+                    icon: mdi:snowflake
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: media_player.tv_del_salotto
+                    icon_color: >-
+                      {% set state=states('media_player.') %}   {% if
+                      state=='on'%} blue  {% else %} grey  {% endif %}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:television-classic
+                      {% elif state=='off' %}
+                      mdi:television-classic-off
+                      {% else %}
+                      mdi:television-classic-off
+                      {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_telecamere_cameretta
+                    content: >-
+                      {{ expand(state_attr("group.all_telecamere_cameretta",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:cctv
+                      {% elif state=='off' %}
+                      mdi:cctv-off
+                      {% else %}
+                      mdi:cctv-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_telecamere_cameretta",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} red  {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_cameretta
+                    content: >-
+                      {{ expand(state_attr("group.all_cameretta", "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:lightbulb-group
+                      {% elif state=='off' %}
+                      mdi:lightbulb-group-off
+                      {% else %}
+                      mdi:lightbulb-group-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set count=expand(state_attr("group.all_cameretta",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} amber  {% endif %}
+                    tap_action:
+                      action: more-info
+                alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+              {% if is_state('group.all_cameretta', 'on') %}
+                 background: rgba(179, 116, 0, 0.3);
+              {% endif %}
+            }
+            :host {
+                    margin-top: -15px !important;
+                  }
+  - type: horizontal-stack
+    cards:
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Cucina
+                secondary: null
+                icon: null
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                multiline_secondary: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      --card-primary-font-weight: normal;
+                      --card-secondary-font-weight: normal;
+                      --card-primary-font-size: 23px;
+                      --card-secondary-font-size: 15px;
+                      background-color: rgba(0,0,0,0);
+                      --ha-card-border-width: 0;
+                    }
+                        :host {
+                          margin-top: 8px !important;
+                          margin-bottom: 0px !important;
+                        }
+              - type: custom:mushroom-template-card
+                primary: Temperatura
+                secondary: >-
+                  {{ states('sensor.cucina_temperatura') | float(1) }} °C |  {{
+                  states('sensor.cucina_umidita') | int(0) }} %
+                icon: mdi:countertop-outline
+                entity: group.all_cucina
+                tap_action:
+                  action: navigate
+                  navigation_path: cucina
+                hold_action:
+                  action: toggle
+                icon_color: >-
+                  {% set state=states('group.all_cucina') %}   {% if
+                  state=='on'%} white  {% else %} #28e700  {% endif %}
+                fill_container: true
+                layout: horizontal
+                multiline_secondary: true
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.2);
+                    } 
+                    :host {
+                      background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --mush-icon-size: 70px;
+                      height: 70px;
+                      margin-left: -22px !important;
+                    }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                fill_container: true
+                chips:
+                  - type: template
+                    entity: sensor.cucina_batteria
+                    card_mod:
+                      style: |
+                        ha-card {
+                          justify-content: center;
+                          min-width: 22px !important;
+                          --chip-height: 30px;
+                          --chip-icon-size: 18px;
+                        }
+                        ha-card:after {
+                          content: "{{ states('sensor.cucina_batteria') }}%";
+                          position: absolute;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          font-weight: bolder;
+                          border-radius: 50%;
+                          top: -7px;
+                          right: 0px;
+                          width: 16px;
+                          height: 16px;
+                          font-size: 11px; 
+                        }
+                    icon: >
+                      {% set battery_level = states(entity) | int // 10 * 10
+                      %}   
+
+                      {% set charging_state =
+                      states('sensor.giuseppe_charger_type') %}   
+
+                      {% set is_charging =
+                      is_state('binary_sensor.giuseppe_charger_type', 'on') |
+                      iif(True, False) %}  
+
+                      {% set map = {"none":"", "ac":"charging-",
+                      "wireless":"charging-wireless-"} %}  
+
+                      {% set charging =
+                      map[states('sensor.giuseppe_charger_type')] %} 
+
+                      {% if battery_level == 100 and is_charging == True %}
+                      mdi:battery-charging   
+
+                      {% elif battery_level == 100 %} mdi:battery      
+
+                      {% elif battery_level >= 10 %}
+                      mdi:battery-{{charging}}{{battery_level}}    
+
+                      {% elif battery_level >= 0 %}
+                      mdi:battery-{{charging}}outline     
+
+                      {% else %} mdi:battery-unknown     
+
+                      {% endif %} 
+                    icon_color: |-
+                      {% set percentage = states(entity) | int %}
+                      {% set r, g, b = 0, 0, 0 %}
+                      {% if (percentage <= 51) %}
+                      {% set r = 200 %}
+                      {% set g = (5.0 * percentage) | round | int %}
+                      {% else %}
+                      {% set g = 200 %}
+                      {% set r = (505 - 4.89 * percentage) | round | int %}
+                      {% endif %}
+                      {{ "#%0x" | format( r * 0x10000 + g * 0x100 + b * 0x1 ) }}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: media_player.cucina
+                    icon_color: >-
+                      {% set state=states('media_player.cucina') %}   {% if
+                      state=='on'%} blue  {% else %} grey  {% endif %}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:television-classic
+                      {% elif state=='off' %}
+                      mdi:television-classic-off
+                      {% else %}
+                      mdi:television-classic-off
+                      {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_telecamere_cucina
+                    content: >-
+                      {{ expand(state_attr("group.all_telecamere_cucina",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:cctv
+                      {% elif state=='off' %}
+                      mdi:cctv-off
+                      {% else %}
+                      mdi:cctv-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_telecamere_cucina",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} red  {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_cucina
+                    content: >-
+                      {{ expand(state_attr("group.all_cucina", "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:lightbulb-group
+                      {% elif state=='off' %}
+                      mdi:lightbulb-group-off
+                      {% else %}
+                      mdi:lightbulb-group-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set count=expand(state_attr("group.all_cucina",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} amber  {% endif %}
+                    tap_action:
+                      action: more-info
+                alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+              {% if is_state('group.all_cucina', 'on') %}
+                 background: rgba(0, 231, 191, 0.3);
+              {% endif %}
+            }
+            :host {
+                    margin-top: -15px !important;
+                  }
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Camera Carol
+                secondary: null
+                icon: null
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                multiline_secondary: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      --card-primary-font-weight: normal;
+                      --card-secondary-font-weight: normal;
+                      --card-primary-font-size: 23px;
+                      --card-secondary-font-size: 15px;
+                      background-color: rgba(0,0,0,0);
+                      --ha-card-border-width: 0;
+                    }
+                        :host {
+                          margin-top: 8px !important;
+                          margin-bottom: 0px !important;
+                        }
+              - type: custom:mushroom-template-card
+                primary: Temperatura
+                secondary: >-
+                  {{ states('sensor.camera_carol_temperatura') | float(1) }} °C
+                  |  {{ states('sensor.camera_carol_umidita') | int(0) }} %
+                icon: mdi:bed
+                entity: group.all_camera_carol
+                tap_action:
+                  action: navigate
+                  navigation_path: camera-carol
+                hold_action:
+                  action: toggle
+                icon_color: >-
+                  {% set state=states('group.all_camera_carol') %}   {% if
+                  state=='on'%} #ff69b4  {% else %} #ffffc3  {% endif %}
+                fill_container: true
+                layout: horizontal
+                multiline_secondary: true
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.2);
+                    } 
+                    :host {
+                      background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --mush-icon-size: 70px;
+                      height: 70px;
+                      margin-left: -22px !important;
+                    }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                fill_container: true
+                chips:
+                  - type: template
+                    entity: climate.tv01_zg_5
+                    icon_color: >-
+                      {% set state=states('climate.tv01_zg_5') %}   {% if
+                      state=='on'%} grey  {% else %} blue  {% endif %}
+                    icon: mdi:snowflake
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: media_player.tv_del_salotto
+                    icon_color: >-
+                      {% set state=states('media_player.') %}   {% if
+                      state=='on'%} blue  {% else %} grey  {% endif %}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:television-classic
+                      {% elif state=='off' %}
+                      mdi:television-classic-off
+                      {% else %}
+                      mdi:television-classic-off
+                      {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_telecamere_carol
+                    content: >-
+                      {{ expand(state_attr("group.all_telecamere_carol",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:cctv
+                      {% elif state=='off' %}
+                      mdi:cctv-off
+                      {% else %}
+                      mdi:cctv-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_telecamere_carol",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} red  {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_camera_carol
+                    content: >-
+                      {{ expand(state_attr("group.all_camera_carol",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:lightbulb-group
+                      {% elif state=='off' %}
+                      mdi:lightbulb-group-off
+                      {% else %}
+                      mdi:lightbulb-group-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set count=expand(state_attr("group.all_camera_carol",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} amber  {% endif %}
+                    tap_action:
+                      action: more-info
+                alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+              {% if is_state('group.all_camera_carol', 'on') %}
+                 background: rgba(255, 255, 77, 0.3);
+              {% endif %}
+            }
+            :host {
+                    margin-top: -15px !important;
+                  }
+  - type: horizontal-stack
+    cards:
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Bagni
+                secondary: null
+                icon: null
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                multiline_secondary: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      --card-primary-font-weight: normal;
+                      --card-secondary-font-weight: normal;
+                      --card-primary-font-size: 23px;
+                      --card-secondary-font-size: 15px;
+                      background-color: rgba(0,0,0,0);
+                      --ha-card-border-width: 0;
+                    }
+                        :host {
+                          margin-top: 8px !important;
+                          margin-bottom: 0px !important;
+                        }
+              - type: custom:mushroom-template-card
+                primary: Temperatura
+                secondary: >-
+                  {{ states('sensor.bagno_padronale_temperatura') | float(1) }}
+                  °C |  {{ states('sensor.bagno_padronale_umidita') | int(0) }}
+                  %
+
+                  {{ states('sensor.bagno_temperatura') | float(1) }} °C |  {{
+                  states('sensor.bagno_umidita') | int(0) }} %
+                icon: mdi:toilet
+                entity: group.all_bagni
+                tap_action:
+                  action: navigate
+                  navigation_path: bagni
+                hold_action:
+                  action: toggle
+                icon_color: >-
+                  {% set state=states('group.all_bagni') %}   {% if
+                  state=='on'%} #fcefef  {% else %} #d52b2b  {% endif %}
+                fill_container: true
+                layout: horizontal
+                multiline_secondary: true
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.2);
+                    } 
+                    :host {
+                      background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --mush-icon-size: 70px;
+                      height: 70px;
+                      margin-left: -22px !important;
+                    }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                fill_container: true
+                chips:
+                  - type: template
+                    entity: media_player.
+                    icon_color: >-
+                      {% set state=states('media_player.') %}   {% if
+                      state=='on'%} blue  {% else %} grey  {% endif %}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:television-classic
+                      {% elif state=='off' %}
+                      mdi:television-classic-off
+                      {% else %}
+                      mdi:television-classic-off
+                      {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_telecamere_bagni
+                    content: >-
+                      {{ expand(state_attr("group.all_telecamere_bagni",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:cctv
+                      {% elif state=='off' %}
+                      mdi:cctv-off
+                      {% else %}
+                      mdi:cctv-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_telecamere_bagni",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} red  {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_bagni
+                    content: >-
+                      {{ expand(state_attr("group.all_bagni", "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:lightbulb-group
+                      {% elif state=='off' %}
+                      mdi:lightbulb-group-off
+                      {% else %}
+                      mdi:lightbulb-group-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set count=expand(state_attr("group.all_bagni",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} amber  {% endif %}
+                    tap_action:
+                      action: more-info
+                alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+              {% if is_state('group.all_bagni', 'on') %}
+                 background: rgba(128, 128, 128, 0.3);
+              {% endif %}
+            }
+            :host {
+                    margin-top: -15px !important;
+                  }
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Camera Padronale
+                secondary: null
+                icon: null
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                multiline_secondary: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      --card-primary-font-weight: normal;
+                      --card-secondary-font-weight: normal;
+                      --card-primary-font-size: 23px;
+                      --card-secondary-font-size: 15px;
+                      background-color: rgba(0,0,0,0);
+                      --ha-card-border-width: 0;
+                    }
+                        :host {
+                          margin-top: 8px !important;
+                          margin-bottom: 0px !important;
+                        }
+              - type: custom:mushroom-template-card
+                primary: Temperatura
+                secondary: >-
+                  {{ states('sensor.camera_da_letto_temperatura') | float(1) }}
+                  °C |  {{ states('sensor.camera_da_letto_umidita') | int(0) }}
+                  %
+                icon: mdi:bed-king-outline
+                entity: group.all_camera_padronele
+                tap_action:
+                  action: navigate
+                  navigation_path: camera-padronale
+                hold_action:
+                  action: toggle
+                icon_color: >-
+                  {% set state=states('group.all_camera_padronele') %}   {% if
+                  state=='on'%} white  {% else %} #FFB6C1  {% endif %}
+                fill_container: true
+                layout: horizontal
+                multiline_secondary: true
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.2);
+                    } 
+                    :host {
+                      background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --mush-icon-size: 70px;
+                      height: 70px;
+                      margin-left: -22px !important;
+                    }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                fill_container: true
+                chips:
+                  - type: template
+                    entity: climate.tv01_zg_4
+                    icon_color: >-
+                      {% set state=states('climate.tv01_zg_4') %}   {% if
+                      state=='on'%} grey  {% else %} blue  {% endif %}
+                    icon: mdi:snowflake
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: media_player.tv_del_salotto
+                    icon_color: >-
+                      {% set state=states('media_player.') %}   {% if
+                      state=='on'%} blue  {% else %} grey  {% endif %}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:television-classic
+                      {% elif state=='off' %}
+                      mdi:television-classic-off
+                      {% else %}
+                      mdi:television-classic-off
+                      {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_telecamere_camera_padronale
+                    content: >-
+                      {{
+                      expand(state_attr("group.all_telecamere_camera_padronale",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:cctv
+                      {% elif state=='off' %}
+                      mdi:cctv-off
+                      {% else %}
+                      mdi:cctv-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_telecamere_camera_padronale",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} red  {% endif %}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: group.all_camera_padronele
+                    content: >-
+                      {{ expand(state_attr("group.all_camera_padronele",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      }}
+                    icon: |-
+                      {% set state=states(entity) %}
+                      {% if state=='on' %}
+                      mdi:lightbulb-group
+                      {% elif state=='off' %}
+                      mdi:lightbulb-group-off
+                      {% else %}
+                      mdi:lightbulb-group-off
+                      {% endif %}
+                    icon_color: >-
+                      {% set
+                      count=expand(state_attr("group.all_camera_padronele",
+                      "entity_id"))|
+                      selectattr("state","eq","on")|map(attribute="entity_id")|list|count
+                      %}  {% if count==0 %} grey  {% else %} amber  {% endif %}
+                    tap_action:
+                      action: more-info
+                alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+              {% if is_state('group.all_camera_padronele', 'on') %}
+                 background: rgba(255,204,255, 0.3);
+              {% endif %}
+            }
+            :host {
+                    margin-top: -15px !important;
+                  }
